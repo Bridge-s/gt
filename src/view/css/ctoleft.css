@@ -1,0 +1,23 @@
+.left-aside {
+    width: 16%;
+}
+.active-btu{
+    color: #f3eb0d;
+    animation: canmove 2s infinite linear;
+}
+@keyframes canmove {
+    0% {
+        transform: translate(-2%);
+    }
+    50% {
+        transform:  translate(2%);
+    }
+    100% {
+        transform: translate(-2%);
+    }
+}
+@media screen and (max-width:600px){
+    .left-aside{
+        display: none;
+    }
+}

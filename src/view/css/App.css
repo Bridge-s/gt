@@ -1,0 +1,143 @@
+.main-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/utils/img/bgver.png');
+  background-size: 105% 105%;
+  opacity: .8;
+}
+
+.main-index {
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  font-family: Microsoft Yahei, PingFang, PingFang-SC;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-bg-2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 105%;
+  width: 105%;
+  transform: translate3d(0%, 0%, 0px);
+  transition: all 2s ease 0s;
+  animation: myanimation 4s linear infinite;
+}
+
+.home {
+  opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background-color: #f5f8fc;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #c8c8c8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #999999;
+}
+
+@keyframes myanimation {
+  0% {
+    opacity: .8;
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0px);
+  }
+
+  100% {
+    opacity: .8;
+    transform: translate3d(2px, 2px, 0);
+  }
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.flex-1 {
+  flex: 1;
+  position: relative;
+  justify-content: space-between;
+  display: flex;
+  height: 100%;
+}
+
+.tab-right {
+  flex: 1;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  margin-top: 40px;
+  padding-bottom: 70px;
+}
+
+.tab-right::-webkit-scrollbar {
+  display: none
+}
+
+
+.App {
+  text-align: center;
+}
+
+.mobile-btn {
+  display: none;
+}
+
+.brower-btn {
+  display: block;
+}
+
+@media screen and (max-width:600px) {
+  .main-bg {
+    background-image: url('/src/utils/img/bg.png');
+  }
+
+  .mobile-btn {
+    display: block;
+  }
+
+  .mobile {
+    position: relative;
+    display: flex;
+  }
+
+  .brower-btn {
+    display: none !important;
+  }
+
+  .tab-right {
+    margin-left: 0;
+    margin-top: 80px;
+  }
+}

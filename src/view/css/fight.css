@@ -1,0 +1,41 @@
+.fight{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    top: 0;
+}
+.fight-img{
+    width: 20%;
+}
+.active{
+    transition: all 2s linear;
+    animation: actionAnimation 2s infinite linear;
+}
+@keyframes actionAnimation{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
+@media screen and (max-width:600px) {
+    .fight{
+        flex-direction: column;
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        bottom: 0;
+    }
+    .fight-img{
+        width: 50%;
+    }
+}

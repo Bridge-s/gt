@@ -1,0 +1,139 @@
+.green-btn {
+    background-image: url('/src/utils/img/connect.png');
+    background-size: 100% 100%;
+    font-family: Fantasy;
+    font-weight: bold;
+    color: #fff;
+    filter: saturate(2);
+    padding: 15px 26px 7px;
+}
+
+.isactive-content{
+    background-image: url('/src/utils//img/btn-active.png');
+    background-size: 100% 100%;
+    width: 150px;
+    text-align: center;
+    padding: 5px 20px;
+}
+
+.timer-style {
+    position: absolute;
+    color: #796c6c;
+    font-size: 18px;
+    font-weight: 700;
+    left: 30%;
+}
+
+.bg-lang3 {
+    background-image: url('/src/utils/img/balance.png');
+    font-size: 14px;
+    padding: 4px;
+    background-size: 100% 100%;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.orange-btn {
+    background-size: 100% 100%;
+    font-family: Fantasy;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 25px;
+}
+
+.head-btn {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.head-btn:hover {
+    opacity: 1;
+}
+
+.ant-dropdown-menu-title-content {
+    font-size: 0.8em;
+    color: #fff !important;
+    opacity: .7;
+}
+
+.ant-dropdown-menu-title-content:hover {
+    opacity: 1;
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+    background-color: transparent !important;
+}
+
+.ant-dropdown-menu {
+    background-color: #282944 !important;
+}
+
+.ant-drawer .ant-drawer-content {
+    background: transparent;
+}
+
+.blance {
+    background-image: url('/src/utils/img/balance.png');
+    background-size: 100% 100%;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+}
+.blance-1{
+    background-image: url('/src/utils//img/btn-active.png');
+    background-size: 100% 100%;
+    color: #fff;
+    text-align: center;
+    padding: 5px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+}
+
+.mobile-btn-1 {
+    background-image: url('/src/utils/img/balance.png');
+    background-size: 100% 100%;
+    width: 150px;
+    margin: 0 20px;
+}
+
+.mobile-btn-2{
+    background-image: url('/src/utils//img/btn-active.png');
+    background-size: 100% 100%;
+    width: 150px;
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.round {
+    animation: round 2s infinite linear;
+}
+
+@keyframes round {
+    to {
+        transform: rotateZ(360deg);
+    }
+
+    from {
+        transform: rotateZ(0);
+    }
+}
+
+@media screen and (max-width:600px) {
+    .head-btn {
+        opacity: 1;
+    }
+
+    .connect-btn {
+        width: 100%;
+    }
+}

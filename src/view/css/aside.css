@@ -1,0 +1,148 @@
+.bg-btn {
+    height: 100%;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 90%;
+    padding-top: 120px;
+}
+
+.ant-drawer-body {
+    padding: 0;
+}
+
+.aside-btn {
+    background-size: 100% 100%;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #3b2818;
+    word-break: keep-all;
+    padding: 15px 0;
+    font-size: 21px;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.aside-btn2 {
+    background-size: 100% 100%;
+    padding: 10px 10px 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    word-break: break-all;
+    text-align: left;
+}
+
+.element-buts {
+    gap: 0px !important;
+    background-size: 100% 100%;
+    width: 100%;
+    padding: 18%;
+    padding-bottom: 10%;
+    padding-top: 0;
+}
+
+.aside-btn:hover {
+    transform: translate(-2%);
+    transition: transform 0.4s linear;
+}
+
+.timer-style2 {
+    top: 30px;
+    position: absolute;
+    right: 10px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    width: 90px;
+    word-break: break-all;
+}
+
+.absolute-down {
+    color: #c7b7b7;
+    font-size: 1.4em;
+    position: absolute;
+    bottom: -1.2em;
+}
+
+.bg-lang {
+    color: #999;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    max-width: 220px;
+}
+
+.bg-lang2 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-size: 18px;
+    margin-bottom: 10px;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+
+.child-style {
+    text-align: right;
+    display: flex;
+    text-align: right;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    align-items: center;
+}
+
+.tq-but {
+    left: 10px;
+    top: 10px;
+    width: 90px;
+    height: 50px;
+}
+
+@media screen and (max-width: 600px) {
+    .bg-btn {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .element-buts {
+        background-image: none;
+        padding-top: 0;
+        gap: 0px !important;
+        padding-bottom: 0;
+    }
+
+    .aside-btn {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 250px;
+        padding: 10px 0;
+    }
+
+    .bg-lang2 {
+        margin: 0 auto;
+        margin-bottom: 2.5em;
+        height: auto;
+    }
+
+    .bg-lang {
+        margin: 10px auto;
+    }
+
+    .child-style {
+        top: 20px;
+        bottom: 20px;
+        font-size: 20px;
+    }
+}
