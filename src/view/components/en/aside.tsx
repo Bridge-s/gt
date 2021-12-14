@@ -6,12 +6,15 @@ import '../../css/aside.css'
 import moment from 'moment'
 import { setInterval } from 'timers'
 import { useTranslation } from 'react-i18next'
+import Militbuy from '../../components/model/militbuy'
+
 // import asidePng from '../../utils/img/aside.png'
 // console.log(asidePng)
 type el = {
     onClick: Function
 }
 const Aside: React.FC<el> = (props: any) => {
+    const [isModalVisible, setIsModalVisible] = useState(false)
     const { t, i18n } = useTranslation()
     const l = i18n.language
     const setl = i18n.changeLanguage
@@ -75,19 +78,19 @@ const Aside: React.FC<el> = (props: any) => {
     const callback = useCallback((e: Event, count: number) => {
         dispath(count)
     }, [])
+    // 绑定父级
+    const bind = (address) => {
+        contract.bind(address).catch((err: any) => { console.log(err) })
+    }
     useEffect(() => {
-        contract.balanceOf && contract.balanceOf().then((res: any) => {
-            console.log(res)
-            setMoney((res / 1e18).toFixed(4))
-        })
         let router: any = '', parent: any = ''
-        if (window.location.hash.includes('?')) {
+        if (window.location.hash.includes('?id=')) {
             router = window.location.hash.match(/#(.*)\?/)?.[1]
             parent = window.location.hash.match(/.*?id=(.*)$/)?.[1]
             if (parent && contract.accountInfo) {
                 contract.accountInfo().then((res: any) => {
                     if (!Number(res.inviter) && parent !== contract.defaultAccount) {
-                        contract.bind(parent).catch((err: any) => { console.log(err) })
+                        setIsModalVisible(true)
                     }
                 }).catch((err: any) => {
                     console.log(err)
@@ -99,8 +102,11 @@ const Aside: React.FC<el> = (props: any) => {
         const obj = ['/', '/mt', '/fh', '/tm', '/tg']
         let num = obj.findIndex(i => i === router)
         setHash(num)
-    }, [contract])
-    useEffect(() => {
+
+        contract.balanceOf && contract.balanceOf().then((res: any) => {
+            console.log(res)
+            setMoney((res / 1e18).toFixed(4))
+        })
         let timers: any = ''
         const func = () => {
             contract.accountInfo && contract.accountInfo().then((res: any) => {
@@ -194,6 +200,7 @@ const Aside: React.FC<el> = (props: any) => {
                 </div>
                 {/* <img src={asidePng} alt="" style={{height:'100px',width:'130px'}}></img> */}
             </Space>
+            <Militbuy isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} handleOk={bind}></Militbuy>
         </div>
     )
 }

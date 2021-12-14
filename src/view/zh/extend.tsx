@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 import { Button, Col, Row, Modal, Input, Form, notification, Spin, Tabs, Radio, Skeleton, Divider, Pagination, Slider, InputNumber } from 'antd'
 import reportWebVitals from '../../reportWebVitals';
 import React from 'react'
-import Militbuy from '../components/model/militbuy'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { nextTick } from 'process'
 /**
  * 
  * @returns 购买彩票的数量弹窗
@@ -19,13 +19,19 @@ type modelProps = {
 }
 
 const Ms = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false)
     const { t, i18n } = useTranslation()
     const l = i18n.language
     const contract = useContext(Mycontext)
     const [url, setUrl] = useState<any>(null)
     const [dgeReward, setDr] = useState('0.0000')
     const [mans, setMens] = useState<number[]>([0, 0])
+    /**购买盲盒数量 */
+    const [buyNum,setNum]=useState(1)
+    const [boxInfo, setBoxInfo] = useState({
+        fee: 0,
+        num: '100'
+    })
+    const ref = useRef(null)
     const getNext = (address: string, index: number) => {
         contract.getAccountInfo && contract.getAccountInfo(address).then((res: any) => {
             if (res.invitees.length && index < 2) {
@@ -49,29 +55,49 @@ const Ms = () => {
             contract.accountInfo().then((res: any) => {
                 console.log('accountInfo', res)
                 setDr(Number(res.dgeReward / 1e18).toFixed(4))
-                if (Number(res.mintCount) >= 5) {
-                    let url = 'http://www.dnftfinance.com/#/?id=' + contract.defaultAccount
-                    setUrl(url)
-                }
+                let url = window.location.origin + '/id=' + contract.defaultAccount
+                setUrl(url)
             }).catch((err: any) => {
             })
+            /**获取盲盒价格 */
+            contract.getSupplyInfo(1).then((res: any) => {
+                console.log('盲盒信息',res)
+                setBoxInfo((state: any) => {
+                    state.fee = Number(res.fee / 1e18).toFixed(4)
+                    state.num = res.left
+                    return { ...state }
+                })
+            })
         }
+        
     }, [contract])
     const copy = () => {
         if (url !== '') {
             contract.copyAddress && contract.copyAddress(url)
         }
     }
-    const btnStyle = window.innerWidth < 600 ? { width: '100%' } : { width: '130%' }
-    const paddingLeft = window.innerWidth < 600 ? {} : { paddingLeft: '100px' }
-
-    const marginLeft = window.innerWidth < 600 ? {} : { marginLeft: '10%' }
     const { TabPane } = Tabs;
 
     function callback() {
         // console.log(key);
     }
 
+    // 购买
+    const buyClick = async (value?) => {
+        /**授权 */
+        let bool = await contract.allowance()
+        try {
+            if (!Number(bool)) {
+                await contract.approve()
+            }
+            contract.multMint(value).then((res: any) => {
+                console.log(res)
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
     class IntegerStep extends React.Component {
         state = {
             inputValue: 1,
@@ -91,8 +117,11 @@ const Ms = () => {
                     inputValue: 100,
                 });
             }
-
         };
+        componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void {
+            console.log(this.state)
+            setNum(this.state.inputValue)
+        }
 
         onChange2 = value => {
             this.setState({
@@ -100,8 +129,8 @@ const Ms = () => {
             });
         };
 
-        buyClick() {
-            setIsModalVisible(true)
+        toBuy = () => {
+            buyClick(this.state.inputValue)
         }
 
         render() {
@@ -116,7 +145,7 @@ const Ms = () => {
                             value={typeof inputValue === 'number' ? inputValue : 0}
                         />
                     </div>
-                    <div className="sub-theme" style={{ marginTop: "40px" }}>Amount<span style={{ marginLeft: "200px", fontSize: "15px", color: "#caccce" }} className="available">Available: {inputValue} MILIT</span></div>
+                    <div className="sub-theme" style={{ marginTop: "40px" }}>Amount<span style={{ marginLeft: "200px", fontSize: "15px", color: "#caccce" }} className="available">Available: {inputValue * boxInfo.fee} MILIT</span></div>
                     <div style={{ textAlign: 'left' }}>
                         <img src={require("../../utils/img/add.png").default} alt="" style={{ width: "45px", marginTop: "-5px" }} />
                         <Input
@@ -126,16 +155,13 @@ const Ms = () => {
                             onChange={this.onChange}
                         />
                         <img src={require("../../utils/img/subtract.png").default} alt="" style={{ width: "45px", marginTop: "-5px" }} />
-                        <img src={require("../../utils/img/buy-btn.png").default} style={{ height: "48px", width: "150px", marginTop: "-5px", marginLeft: "100px", cursor: "pointer" }} onClick={this.buyClick} className="buy-btn"></img>
+                        <img src={require("../../utils/img/buy-btn.png").default} style={{ height: "48px", width: "150px", marginTop: "-5px", marginLeft: "100px", cursor: "pointer" }} onClick={this.toBuy} className="buy-btn"></img>
                     </div>
                 </div>
             );
         }
     }
 
-    const buyClick = () => {
-        setIsModalVisible(true)
-    }
 
     return (
         <div>
@@ -204,7 +230,9 @@ const Ms = () => {
                                     </div>
                                     <div className="sub-theme">Boxes sold</div>
                                     <div>
-                                        <IntegerStep />
+                                        {
+                                            useMemo(()=><IntegerStep ref={ref} />,[boxInfo])
+                                        }
                                     </div>
                                     <div className="sub-theme PC">Countdown</div>
                                     <Row style={{ fontSize: "18px", color: "#ffe386", fontWeight: "700", marginTop: "15px" }} className="PC">
@@ -227,15 +255,14 @@ const Ms = () => {
                             <Row>
                                 <div>
                                     <img src={require("../../utils/img/ka.png").default} alt="" style={{ width: "100px", marginTop: "-40px", zIndex: "9999" }} />
-                                    <span>x 0</span>
+                                    <span>x {buyNum}</span>
                                 </div>
-                                    <img src={require("../../utils/img/buy-btn.png").default} style={{ height: "35px", width: "100px", cursor: "pointer", marginTop: "10px" }} onClick={buyClick} className="buy-btn-mobile"></img>
+                                <img src={require("../../utils/img/buy-btn.png").default} style={{ height: "35px", width: "100px", cursor: "pointer", marginTop: "10px" }} onClick={ref.current?.toBuy} className="buy-btn-mobile"></img>
                             </Row>
                         </div>
                     </TabPane>
                 </Tabs>
             </div>
-            <Militbuy isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}></Militbuy>
         </div >
     )
 }
